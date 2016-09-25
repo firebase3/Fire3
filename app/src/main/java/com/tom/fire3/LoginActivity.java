@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -31,11 +33,24 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     };
+    //google
+    GoogleSignInOptions gso;
+    GoogleApiClient googleApiClient;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .requestIdToken(getString(R.string.web_application_id))
+                .build();
+
+
+
         findViews();
         auth = FirebaseAuth.getInstance();
     }
@@ -94,6 +109,11 @@ public class LoginActivity extends AppCompatActivity {
     private void findViews() {
         edUserid = (EditText) findViewById(R.id.userid);
         edPasswd = (EditText) findViewById(R.id.passwd);
+    }
+
+
+    public void google(View v){
+
     }
 }
 

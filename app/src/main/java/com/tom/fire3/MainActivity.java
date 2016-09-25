@@ -15,6 +15,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
@@ -76,10 +79,27 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "email:"+user.getEmail());
             FirebaseDatabase db = FirebaseDatabase.getInstance();
             DatabaseReference users = db.getReference("users");
-            users.child(user.getUid())
-                    .child("nickname")
-                    .setValue("Jack");
+//            addFriend(user, users);
+//            setNickname(user, users);
+
         }
+    }
+
+    private void addFriend(FirebaseUser user, DatabaseReference users) {
+        DatabaseReference friends = users.child(user.getUid())
+                .child("friends").push();
+        Map<String,Object> friend = new HashMap<>();
+        friend.put("name", "Jane");
+        friend.put("phone", "948488383");
+        friend.put("gendar", 0);
+        friends.setValue(friend);
+        Log.d(TAG, "Key:"+friends.getKey());
+    }
+
+    private void setNickname(FirebaseUser user, DatabaseReference users) {
+        users.child(user.getUid())
+                .child("nickname")
+                .setValue("Jack");
     }
 }
 
