@@ -1,5 +1,6 @@
 package com.tom.fire3;
 
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -52,8 +53,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(View v){
-        String email = edUserid.getText().toString();
-        String passwd = edPasswd.getText().toString();
+        final String email = edUserid.getText().toString();
+        final String passwd = edPasswd.getText().toString();
         auth.signInWithEmailAndPassword(email, passwd)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -62,11 +63,32 @@ public class LoginActivity extends AppCompatActivity {
                             new AlertDialog.Builder(LoginActivity.this)
                                     .setMessage("Login Failed")
                                     .setPositiveButton("OK", null)
+                                    .setNeutralButton("Sign Up", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            createUser(email, passwd);
+                                        }
+                                    })
                                     .show();
                         }
                     }
                 });
 
+    }
+
+    private void createUser(String email, String passwd) {
+        auth.createUserWithEmailAndPassword(email, passwd)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                            new AlertDialog.Builder(LoginActivity.this)
+                                    .setMessage("Sign-up "+
+                                            (task.isSuccessful()? "successful": "failed"))
+                                    .setPositiveButton("OK", null)
+                                    .show();
+
+                    }
+                });
     }
 
     private void findViews() {
