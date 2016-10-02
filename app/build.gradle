@@ -30,6 +30,7 @@ dependencies {
     compile 'com.google.firebase:firebase-database:9.4.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
+    compile 'com.google.android.gms:play-services-auth:9.4.0'
 }
 apply plugin: 'com.google.gms.google-services'
 
